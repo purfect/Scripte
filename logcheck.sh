@@ -1,5 +1,7 @@
 #!/bin/bash
-
+#
+# Liest NginX-Logfile ein und gibt sie etwas übersichtlicher aus
+#
 if [ $# -eq 0 ]
 then
 	FILE=/var/log/nginx/access.log
