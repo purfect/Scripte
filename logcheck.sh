@@ -4,9 +4,13 @@
 #
 ###### CONFIG ############
 FILE=/var/log/nginx/access.log
-LOCALNET='192.168' #zum herausfiltern von Anfragen aus dem LAN
+LOCALNET='192.168' # zum herausfiltern von Anfragen aus dem LAN
 ##########################
 
+# Neben der normalen access.log kann man auch ältere Logfiles 
+# (z.B. access.log.1) betrachten, indem man die Nummer vom Logfile übergibt
+# ohne Parameter wird die normale Logdatei eingelesen
+# ./logcheck.sh 1 liest access.log.1 aus
 if [ $# != 0 ]
 then
 	if [ -f $FILE.$1 ]
