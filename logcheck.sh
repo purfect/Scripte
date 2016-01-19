@@ -4,7 +4,7 @@
 #
 ###### CONFIG ############
 FILE=/var/log/nginx/access.log
-LOCALNET='192.168'
+LOCALNET='192.168' #zum herausfiltern von Anfragen aus dem LAN
 ##########################
 
 if [ $# != 0 ]
