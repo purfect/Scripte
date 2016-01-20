@@ -26,10 +26,12 @@ INTERNCOUNT=$(cat $FILE | grep $LOCALNET | wc -l)
 echo -e "\n[*] $ALLCOUNT Zugriffe insgesamt\n"
 if [ $ALLCOUNT != 0 ]
 then
-	let DIFF=$ALLCOUNT-$INTERNCOUNT
-	echo -e "[*] $INTERNCOUNT LAN-Zugriff(e)\n"
-	echo -e "[*] $DIFF externe Zugriff(e) \n"
-
+	if [ $INTERNCOUNT -gt 0 ]
+	then
+		let DIFF=$ALLCOUNT-$INTERNCOUNT
+		echo -e "[*] $INTERNCOUNT LAN-Zugriff(e)\n"
+		echo -e "[*] $DIFF externe Zugriff(e) \n"
+	fi
 	echo -e "\tIP\tAnfrage\tZiel\t\tBrowser"
 	cat $FILE | awk '{FS="\"";print $1,$2,$6}' | awk '{print $1"\t"$6"\t"$7"\t\t"$9}' | grep -v $LOCALNET | uniq
 	IP=$(cat $FILE | awk '{print $1}' | grep -v $LOCALNET | uniq) 
