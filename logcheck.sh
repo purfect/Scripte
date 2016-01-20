@@ -6,7 +6,7 @@
 FILE=./access.log
 LOCALNET='192.168'
 ########################
-if [ $# -gt 0 ]
+if [ $# -gt 0 ] && [ "$1" != "--detail" ]
 then
         if [ -f $FILE.$1 ]
         then
@@ -27,16 +27,17 @@ then
                 echo -e "[*] $INTERNCOUNT LAN-Zugriff(e)\n"
                 echo -e "[*] $DIFF externe Zugriff(e) \n"
         fi
-        echo -e "Zeitpunkt\t\t\tIP\tAnfrage\tZiel\t\tBrowser"
-        if [ "$2" = "--detail" ]
+        if [ "$1" == "--detail" ] || [ "$2" == "--detail" ]
         then
+                echo -e "Zeitpunkt\t\t\tIP\tAnfrage\tZiel\t\tBrowser"
                 cat $FILE | awk '{FS="\"";print $1,$2,$6}' | awk '{print $4"\t"$1"\t"$6"\t"$7"\t\t"$9}' | sed 's/[\[]//g' | grep -v $LOCALNET | uniq
         else
+                echo -e "\tIP\tAnfrage\tZiel\t\tBrowser"
                 cat $FILE | awk '{FS="\"";print $1,$2,$6}' | awk '{print $1"\t"$6"\t"$7"\t\t"$9}' | grep -v $LOCALNET | uniq
         fi
-        IP=$(cat $FILE | awk '{print $1}' | grep -v $LOCALNET | uniq) 
+        IP=$(cat $FILE | awk '{print $1}' | grep -v $LOCALNET | uniq)
         echo -e "\n[*] HOSTS\n"
-        getent hosts $IP | awk '{print $1"\t"$2}' | uniq 
-fi      
+        getent hosts $IP | awk '{print $1"\t"$2}' | uniq
+fi
 
 echo -e "\n[*] Beendet mit Exit-Code: $(echo $?)\n"
