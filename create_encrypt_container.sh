@@ -21,7 +21,7 @@ if [ -f $RANDOMNAME ]
 then
     echo "[*] Container erfolgreich erstellt"
     echo "[*] Container-Name: $RANDOMNAME"
-    echo "[*] Conatiner wird verschlüsselt"
+    echo "[*] Container wird verschlüsselt"
     cryptsetup -c aes-xts-plain64 -s 512 -h sha512 -y --batch-mode luksFormat $RANDOMNAME 
     cryptsetup luksOpen $RANDOMNAME $DATENOW 
     echo "[*] Formatiere Coantainer"
