@@ -107,7 +107,6 @@ then
 	echo -e "export GOBIN=\$GOPATH/bin" >> /home/$USER/.bashrc
 	su $USER -c "source /home/$USER/.bashrc"
 fi
-echo "[*] Installiert: " $(su $USER -c "go version")
 if [ $(echo $?) == 0 ]
 then
         echo "[*] Installation erfolgreich!"
