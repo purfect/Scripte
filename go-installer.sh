@@ -60,7 +60,7 @@ else
 fi
 echo "[*] Lösche $VERSION"
 rm $VERSION
-echo "[*] Erstelle Benutzer-Verzeichnis für Go-Projekte"
+echo "[*] Erstelle Benutzer-Verzeichnis für Go-Projekte falls nicht vorhanden"
 if [ ! -d  $GOWORKSPACE"bin" ]
 then 
     mkdir -p $GOWORKSPACE"bin"
@@ -74,7 +74,7 @@ then
     mkdir -p $GOWORKSPACE"pkg"
 fi 
 chown -R $USER $GOWORKSPACE
-echo "Setze globale Pfade"
+echo "[*] Setze globale Pfade"
 if [ -f "/etc/bash.bashrc" ]
 then
 	echo "[*] Setze Pfade in /etc/bash.bashrc"
@@ -107,7 +107,7 @@ then
 	echo -e "export GOBIN=\$GOPATH/bin" >> /home/$USER/.bashrc
 	su $USER -c "source /home/$USER/.bashrc"
 fi
-echo "[*] Installiert: "$(go version)
+echo "[*] Installiert: " su $USER -c "go version"
 if [ $(echo $?) == 0 ]
 then
         echo "[*] Installation erfolgreich!"
