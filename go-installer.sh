@@ -110,7 +110,7 @@ fi
 if [ $(echo $?) == 0 ]
 then
         echo "[*] Installation erfolgreich!"
-        echo -e "[*] Bitte führen Sie  noch den Befehl \"source /etc/profile\" aus damit Sie go verwenden können"
+        echo -e "[*] Bitte führen Sie  noch den Befehl \"source /home/$USER/.bashrc\" aus damit Sie go verwenden können"
         echo "[*] Oder loggen Sie sich aus und wieder ein"
 else
         echo "[!] Irgend etwas ist schiefgelaufen!"
