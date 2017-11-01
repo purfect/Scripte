@@ -1,5 +1,5 @@
 #!/bin/bash
-PFAD="/home/torsten/tmp/vpntest/"
+PFAD="/home/user/tmp/vpntest/"
 
 echo "###################################"
 echo -e "\tOPENVPN Standorte"
