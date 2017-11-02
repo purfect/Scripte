@@ -1,6 +1,16 @@
 #!/bin/bash
 PFAD="/home/user/tmp/vpntest/"
 
+######[ Root-Check ]######
+if [ "$(id -u)" != "0" ]
+then
+    echo "[!] Dieses Script läuft nur mit Root-Rechten"
+    exit 1
+fi
+
+########[ Script ]########
+
+
 echo "###################################"
 echo -e "\tOPENVPN Standorte"
 echo "###################################"

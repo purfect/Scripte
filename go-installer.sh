@@ -2,6 +2,16 @@
 INSTALLPATH="/usr/local"
 GOWORKSPACE="/home/rasputin/go_projects/"
 USER="rasputin"
+
+######[ Root-Check ]######
+if [ "$(id -u)" != "0" ]
+then
+    echo "[!] Dieses Script läuft nur mit Root-Rechten"
+    exit 1
+fi
+
+######[ Parameter ]######
+
 GETGOVERSION=$(go version 2>/dev/null)
 echo ""
 if [ "$(which curl)" != "" ]
