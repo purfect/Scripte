@@ -36,6 +36,6 @@ then
 	exit 1
 else 
 	echo "$SUCHE wurde ausgewählt" 
-	openvpn $SUCHE
+	screen openvpn $SUCHE
 	
 fi
