@@ -49,3 +49,26 @@ then
         exit 1                                             
     fi                                                     
 fi        
+#                                                          
+# Crunchbang++                                                
+#             
+MAINURL="https://crunchbangplusplus.org"
+CPPTORRENT=$(curl -sq "$MAINURL" | grep amd64 | awk -F "\"" '{ print $2}') 
+CPPTORRENTNAME=$(echo "$CPPTORRENT" | awk -F "/" '{print $NF}')
+CPPNEWTORRENT="$MAINURL$CPPTORRENT"
+if [ ! -f "$TORRENTPFAD/$CPPTORRENTNAME" ]             
+then                                                       
+    rm -f $TORRENTPFAD/cbpp-*                           
+    wget "$CPPNEWTORRENT" -O "$TORRENTPFAD/$CPPTORRENTNAME"                                                         
+    rm -f $TORRENTDOWNLOADPFAD/cbpp-*                   
+    if [ "$?" == 0 ]                                       
+    then                                                   
+        /usr/bin/systemctl restart transmission-daemon.service                                                        
+        /usr/bin/date >> $LOGFILE                  
+        echo "neue crunchbang-Version hinzugefügt" >> $LOGFILE 
+        echo " " >> $LOGFILE                               
+
+    else                                                   
+        exit 1                                             
+    fi                                                     
+fi 
