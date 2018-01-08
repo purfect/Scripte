@@ -44,8 +44,9 @@ then
         exit 1
 fi
 echo "[*] Beginne Download von: "$VERSION
-ADRESSE=$(curl -qs -I $(echo $WEB) | grep -i location | awk '{print $NF}' | awk -F'?' '{print $1}')
-wget -q --show-progress $ADRESSE
+#ADRESSE=$(curl -qs -I $(echo $WEB) | grep -i location | awk '{print $NF}' | awk -F'?' '{print $1}')
+#wget -q --show-progress $ADRESSE
+wget -q --show-progress $WEB
 if [ ! -e "$VERSION" ]
 then
         echo "[!] Download fehlgeschlagen, Datei im Ordner nicht gefunden!"
