@@ -94,7 +94,7 @@ then
 	sed -i '/export\ GOBIN/d' /etc/bash.bashrc
 	echo -e "export GOBIN=\$GOPATH/bin" >> /etc/bash.bashrc
 	sed -i '/\/go\/bin/d' /etc/bash.bashrc
-	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOPATH/bin" >> /etc/bash.bashrc
+	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOBIN" >> /etc/bash.bashrc
 	source /etc/bash.bashrc
 else
 	echo "[*] Setze Pfade in /etc/profile"
@@ -103,7 +103,7 @@ else
 	sed -i '/export\ GOBIN/d' /etc/profile
 	echo -e "export GOBIN=\$GOPATH/bin" >> /etc/profile
 	sed -i '/\/go\/bin/d' /etc/profile
-	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOPATH/bin" >> /etc/profile
+	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOBIN" >> /etc/profile
 	source /etc/profile
 
 fi
@@ -115,7 +115,7 @@ then
 	sed -i '/export\ GOBIN/d' /home/$USER/.bashrc
 	echo -e "export GOBIN=\$GOPATH/bin" >> /home/$USER/.bashrc
 	sed -i '/\/go\/bin/d' /home/$USER/.bashrc
-	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOPATH/bin" >> /home/$USER/.bashrc
+	echo -e "export PATH=\$PATH:$INSTALLPATH/go/bin:\$GOBIN" >> /home/$USER/.bashrc
 
 	su $USER -c "source /home/$USER/.bashrc"
 fi
