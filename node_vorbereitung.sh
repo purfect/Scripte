@@ -1,7 +1,7 @@
 #!/bin/bash
 apt update 
-apt install vim htop curl wget bash-completion git glusterfs-server
-apt dist-upgrade -V
+apt install vim htop curl wget bash-completion git glusterfs-server -y
+apt dist-upgrade -y
 echo -e "%rasputin ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers
 wget https://raw.githubusercontent.com/purfect/Scripte/master/install_ca.sh
 chmod +x install_ca.sh
@@ -18,6 +18,6 @@ apt-get install software-properties-common -y
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.hosteurope.de/mirror/mariadb.org/repo/10.2/ubuntu xenial main'
 apt update
-apt install mariadb-server
+apt install mariadb-server -y
 mysql_secure_installation
 echo "Vorbereitungen abgeschlossen!"
