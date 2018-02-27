@@ -10,3 +10,4 @@ sed -i 's/PermitRootLogin\ prohibit-password/PermitRootLogin\ yes/g' /etc/ssh/ss
 echo -e "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 sed -i 's/UsePAM\ yes/UsePAM\ no/g' /etc/ssh/sshd_config
 systemctl restart sshd.service
+echo "Vorbereitungen abgeschlossen!"
