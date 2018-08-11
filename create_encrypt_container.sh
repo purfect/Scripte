@@ -14,8 +14,8 @@ RANDOMNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1)
 DATENOW=container_$(date +"%m-%d-%y-%T")
 
 ####[ Cryptsetup installiert? ]####
-which cryptsetup
-if [ $(echo $?) != 0]
+which cryptsetup > /dev/null
+if [ $(echo $?) != 0 ]
 then
 	echo "[!] Bitte zuerst cryptsetup installieren"
 	exit 1

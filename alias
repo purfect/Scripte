@@ -21,4 +21,7 @@ alias scan='nmap -sV -A -Pn'
 alias sl='P=(" " █ ░ ▒ ▓); while :; do printf "\e[$[RANDOM%LINES+1];$[RANDOM%COLUMNS+1]f${P[$RANDOM%5]}"; done'
 alias slurm='slurm -i eno1'
 alias suche='cd / && sudo find . 2>/dev/null | grep -i'
+alias nload='nload -u H'
+alias download='aria2c -c -j 2 -x 10'
+alias goarmbuild='env GOOS=linux GOARCH=arm go build'
 
