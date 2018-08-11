@@ -12,6 +12,7 @@ fi
 ###
 MySQLPASSWORT=$(openssl rand -base64 32)
 ICINGA2MYSQLPASSWORT=$(openssl rand -base64 32)
+ICINGAWEBAPIPASSWORT=$(openssl rand -base64 32)
 IDOMYSQLBENUTZER="icinga2"
 ####
 echo "[*] Binde Icinga-Repos ein"
@@ -38,7 +39,7 @@ echo "[*] Setze das neues MySQL-Passwort: $MySQLPASSWORT"
 mysql --connect-expired-password -uroot -p$TMPMYSQLPASSWORT -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '$MySQLPASSWORT';" >/dev/null 2>&1
 echo "[*] Überprüfe die Änderung des Passwortes"
 mysql -uroot -p$MySQLPASSWORT -e "SELECT User, Host, HEX(authentication_string) FROM mysql.user;" 2>/dev/null
-echo "[*] Erstelle Icinga-Datenbank"
+echo "[*] Erstelle Icinga2-Datenbank"
 mysql -uroot -p$MySQLPASSWORT -e "CREATE DATABASE icinga2;" >/dev/null 2>&1
 echo "[*] Erstelle Icinga2-Datenbankbenutzer"
 mysql -uroot -p$MySQLPASSWORT -e "GRANT SELECT, INSERT, UPDATE, DELETE, DROP, CREATE VIEW, INDEX, EXECUTE ON icinga2.* TO 'icinga2'@'localhost' IDENTIFIED BY '$ICINGA2MYSQLPASSWORT';" >/dev/null 2>&1
@@ -57,3 +58,40 @@ echo -e "database = \"icinga2\"" >> /etc/icinga2/features-enabled/ido-mysql.conf
 echo -e "}" >> /etc/icinga2/features-enabled/ido-mysql.conf
 echo "[*] Reload von Icinga 2"
 systemctl reload icinga2.service
+echo "[*] Aktiviere API-Feature"
+icinga2 feature enable api >/dev/null 2>&1
+icinga2 api setup >/dev/null 2>&1
+echo "[*] Konfiguriere API-Feature"
+echo -e "object ApiUser \"icingaweb2\" {" >> /etc/icinga2/conf.d/api-users.conf
+echo -e "password = \"$ICINGAWEBAPIPASSWORT\"" >> /etc/icinga2/conf.d/api-users.conf
+echo -e "permissions = [" >> /etc/icinga2/conf.d/api-users.conf
+echo -e "\t\"status/query\"," >> /etc/icinga2/conf.d/api-users.conf
+echo -e "\t\"actions/*\"," >> /etc/icinga2/conf.d/api-users.conf
+echo -e "\t\"objects/modify/*\"," >> /etc/icinga2/conf.d/api-users.conf
+echo -e "\t\"objects/query/*\"," >> /etc/icinga2/conf.d/api-users.conf
+echo -e "]" >> /etc/icinga2/conf.d/api-users.conf
+echo -e "}" >> /etc/icinga2/conf.d/api-users.conf
+echo  -e "[*] Passwort für API-Benutzer \"icingaweb2\": $ICINGAWEBAPIPASSWORT"
+echo "[*] Reload von Icinga 2"
+systemctl reload icinga2.service
+echo -e "[*] Installiere \"Software Collection for Linux\""
+yum install -y centos-release-scl >/dev/null 2>&1
+echo "[*] Installiere Apache, Icinga Web 2 und IcingaCLI"
+yum -y install httpd icingaweb2 icingacli >/dev/null 2>&1
+groupadd -r icingaweb2; >/dev/null 2>&1
+usermod -a -G icingaweb2 apache; >/dev/null 2>&1
+sed -i -e "s/\;date\.timezone\ \=/date\.timezone\ \=\ Europe\/Berlin/g" /etc/opt/rh/rh-php71/php.ini
+echo "[*] Starte Webserver"
+systemctl start httpd.service && systemctl enable httpd.service >/dev/null 2>&1
+echo "[*] Starte PHP-FPM-Dienst"
+systemctl start rh-php71-php-fpm.service && systemctl enable rh-php71-php-fpm.service >/dev/null 2>&1
+echo "[*] Erstelle Icinga Web 2 Konfigurationsverzeichnis"
+icingacli setup config directory --group icingaweb2; 1>/dev/null
+echo "#######################################"
+echo "[*] Passwörter:"
+echo "MySQL-Root: $MySQLPASSWORT"
+echo "MySQL-Icinga2: $ICINGA2MYSQLPASSWORT"
+echo "API Icingaweb-Benutzer: $ICINGAWEBAPIPASSWORT"
+echo "#######################################"
+echo "[*] Erstelle Token "
+icingacli setup token create;
