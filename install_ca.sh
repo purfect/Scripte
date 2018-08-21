@@ -7,8 +7,8 @@ echo "TrustedUserCAKeys /etc/ssh/ca.pub" >> /etc/ssh/sshd_config
 echo "[*] Einrichten der Principals"
 mkdir -p /var/ssh/auth_principals
 echo "AuthorizedPrincipalsFile /var/ssh/auth_principals/%u" >> /etc/ssh/sshd_config
-echo -e 'zone-webservers\nroot-everywhere' > /var/ssh/auth_principals/root
-echo -e 'zone-webservers\nroot-everywhere' > /var/ssh/auth_principals/$USER
+echo -e 'zone-webservers\nrootzugriff' > /var/ssh/auth_principals/root
+echo -e 'zone-webservers\nrootzugriff' > /var/ssh/auth_principals/$USER
 echo "[*] Neustarten des SSH-Dienstes"
 /bin/systemctl restart sshd.service
 echo "[*] Einrichtung angeschlossen!"
