@@ -1,0 +1,5 @@
+[all]
+<< HIER HOSTS EINFÜGEN >>
+
+[all:vars]
+deploy_user='monitoring'
