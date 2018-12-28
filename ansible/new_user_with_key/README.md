@@ -1,4 +1,4 @@
-** Anlegen eines neuen Benutzer inkl. ssh-Keys**
+**Anlegen eines neuen Benutzer inkl. ssh-Keys**
 
 zu starten:
 
