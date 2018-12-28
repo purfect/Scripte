@@ -5,7 +5,7 @@
     - name: "Anlegen des Benutzers"
       user:
         name: "{{ deploy_user }}"
-        comment: "{{ deploy_user }}"-Benutzer
+        comment: "{{ deploy_user }}"
     - name: "Anlegen des .ssh-Ordners"
       file:
         path: /home/"{{ deploy_user }}"/.ssh
@@ -13,6 +13,11 @@
         owner: "{{ deploy_user }}"
         group: "{{ deploy_user }}"
         mode: 0664
-    - name: ""
+    - name: "Anlegen der authorized_key Datei"
+      authorized_key:
+        user: "{{ deploy_user }}"
+        state: present
+        key: "{{ lookup{'file', '/home/<< Hier NAME EINSETZEN !!!!>>/.ssh/id_rsa.pub'} }}"
+
     
 
